@@ -1,151 +1,151 @@
 # Hakara
 
-**Platforma interaktywnego opowiadania** — wspólny projekt pisarski, w którym zaproszeni autorzy tworzą rozgałęzione opowiadanie złożone z rozdziałów i tekstów ocenianych przez społeczność.
+**Interactive storytelling platform** — a collaborative writing project where invited authors contribute to a branching story composed of chapters and texts reviewed by the community.
 
 ---
 
-## Opis projektu
+## About
 
-Hakara to webowa platforma umożliwiająca grupie pisarzy amatorów wspólne tworzenie interaktywnego opowiadania. Projekt oparty jest na systemie rekrutacji — nowi autorzy składają przykładową pracę, która jest oceniana przez administratorów. Po przyjęciu autor może dodawać własne teksty w ramach istniejących rozdziałów lub tworzyć nowe.
+Hakara is a web platform for a group of amateur writers to collaboratively build an interactive story. The project uses a recruitment system — new authors submit a sample piece which is reviewed by administrators. Once accepted, an author can add texts within existing chapters or propose new ones.
 
-Platforma wyświetla statystyki w czasie rzeczywistym: liczbę rozdziałów, tekstów, komentarzy i odczytań.
+The platform displays live stats: number of chapters, texts, comments, and total reads.
 
 ---
 
-## Stack technologiczny
+## Tech Stack
 
-| Warstwa | Technologia |
+| Layer | Technology |
 |---|---|
-| Backend | PHP (natywny, bez frameworka) |
-| Baza danych | MySQL / MariaDB |
-| Frontend | HTML, CSS (własny `style.css`) |
+| Backend | PHP (vanilla, no framework) |
+| Database | MySQL / MariaDB |
+| Frontend | HTML, CSS (custom `style.css`) |
 | Scroll UI | jQuery + SlimScroll |
-| Analityka | Google Analytics (UA) |
+| Analytics | Google Analytics (UA) |
 
 ---
 
-## Struktura plików
+## File Structure
 
 ```
 hakara/
-├── index.php               # Strona główna — opis projektu, statystyki, ogłoszenia
-├── zasady.php              # Zasady uczestnictwa
-├── rejestracja.php         # Formularz rejestracji użytkownika
-├── rekrutacja.php          # Lista prac rekrutacyjnych
-├── rekrutacja-dodaj.php    # Formularz dodawania pracy rekrutacyjnej
-├── rekrutacja-wpis.php     # Podgląd pojedynczej pracy rekrutacyjnej
-├── teksty.php              # Lista wszystkich tekstów
-├── wpis.php                # Podgląd tekstu
-├── wpis2.php               # Podgląd tekstu (wariant)
-├── wpis3.php               # Podgląd tekstu (wariant)
-├── dodaj.php               # Formularz dodawania tekstu
-├── dodaj2.php              # Formularz dodawania tekstu (wariant)
-├── fabula.php              # Struktura fabularna / mapa rozdziałów
-├── profil.php              # Profil użytkownika
-├── notatnik.php            # Notatnik autora
-├── uczestnicy.php          # Lista uczestników projektu
-├── inne.php                # Dodatkowe treści
-├── kontakt.php             # Formularz kontaktowy
-├── strona-edycja.php       # Edycja strony (panel admina)
-├── strona-rekrutacja.php   # Panel rekrutacji (admin)
-├── strona-teksty.php       # Panel zarządzania tekstami (admin)
-├── style.css               # Arkusz stylów
+├── index.php               # Home page — project description, stats, announcements
+├── zasady.php              # Participation rules
+├── rejestracja.php         # User registration form
+├── rekrutacja.php          # List of recruitment submissions
+├── rekrutacja-dodaj.php    # Add recruitment submission form
+├── rekrutacja-wpis.php     # Single recruitment submission view
+├── teksty.php              # Full text listing
+├── wpis.php                # Text view
+├── wpis2.php               # Text view (variant)
+├── wpis3.php               # Text view (variant)
+├── dodaj.php               # Add text form
+├── dodaj2.php              # Add text form (variant)
+├── fabula.php              # Story structure / chapter map
+├── profil.php              # User profile
+├── notatnik.php            # Author's notepad
+├── uczestnicy.php          # Participants list
+├── inne.php                # Miscellaneous content
+├── kontakt.php             # Contact form
+├── strona-edycja.php       # Page editor (admin panel)
+├── strona-rekrutacja.php   # Recruitment panel (admin)
+├── strona-teksty.php       # Text management panel (admin)
+├── style.css               # Stylesheet
 └── modules/
-    ├── head.php            # Nagłówek HTML (include)
-    └── foot.php            # Stopka HTML (include)
+    ├── head.php            # HTML header (include)
+    └── foot.php            # HTML footer (include)
 ```
 
 ---
 
-## Schemat bazy danych
+## Database Schema
 
-Na podstawie zapytań w kodzie projekt wymaga co najmniej następujących tabel:
+Based on queries found in the source code, the project requires at least the following tables:
 
-| Tabela | Opis |
+| Table | Description |
 |---|---|
-| `katalog` | Rozdziały opowiadania |
-| `tekst` | Teksty autorów (kolumny: `wyswietlen`, i inne) |
-| `kom` | Komentarze do tekstów |
+| `katalog` | Story chapters |
+| `tekst` | Author texts (columns include: `wyswietlen`, and others) |
+| `kom` | Comments on texts |
 
-> **Uwaga:** Plik SQL z definicją schematu bazy nie jest dołączony do repozytorium. Przed uruchomieniem należy ręcznie utworzyć tabele.
+> **Note:** No SQL schema file is included in the repository. Tables must be created manually before running the app.
 
 ---
 
-## Wymagania
+## Requirements
 
-- PHP >= 5.6 (używa `mysqli_*`)
+- PHP >= 5.6 (uses `mysqli_*` functions)
 - MySQL / MariaDB
-- Serwer HTTP: Apache lub Nginx
-- jQuery (wczytywany przez `head.php`)
+- HTTP server: Apache or Nginx
+- jQuery (loaded via `head.php`)
 - jQuery SlimScroll
 
 ---
 
-## Instalacja
+## Installation
 
-1. **Sklonuj repozytorium:**
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/pswierczynski/hakara.git
 cd hakara
 ```
 
-2. **Utwórz bazę danych:**
+2. **Create the database:**
 
 ```sql
 CREATE DATABASE hakara CHARACTER SET utf8 COLLATE utf8_polish_ci;
 ```
 
-3. **Skonfiguruj połączenie z bazą:**
+3. **Configure the database connection:**
 
-Znajdź plik konfiguracyjny połączenia (prawdopodobnie w `modules/head.php` lub osobnym pliku `config.php`) i uzupełnij dane dostępowe:
+Locate the connection config (likely inside `modules/head.php`) and fill in your credentials:
 
 ```php
-$conn = mysqli_connect('localhost', 'uzytkownik', 'haslo', 'hakara');
+$conn = mysqli_connect('localhost', 'username', 'password', 'hakara');
 ```
 
-4. **Utwórz tabele** zgodnie ze schematem opisanym powyżej.
+4. **Create the required tables** according to the schema described above.
 
-5. **Wgraj pliki na serwer** (np. do katalogu `public_html` lub `htdocs`).
+5. **Deploy files to your server** (e.g. `public_html` or `htdocs`).
 
-6. **Otwórz w przeglądarce:** `http://localhost/hakara/`
-
----
-
-## Funkcjonalności
-
-- Strona główna z dynamicznymi statystykami (rozdziały, teksty, komentarze, odczytania)
-- System rekrutacji nowych autorów
-- Dodawanie i przeglądanie tekstów literackich
-- Podgląd struktury fabularnej opowiadania
-- Profile uczestników
-- Notatnik autora
-- Panel administracyjny (zarządzanie tekstami, rekrutacją, stroną)
-- Formularz kontaktowy
-- Integracja z Google Analytics
+6. **Open in browser:** `http://localhost/hakara/`
 
 ---
 
-## Historia projektu
+## Features
 
-| Data | Zdarzenie |
+- Home page with dynamic statistics (chapters, texts, comments, reads)
+- Author recruitment system with admin review
+- Adding and browsing literary texts
+- Story structure / chapter map view
+- Author profiles
+- Author notepad
+- Admin panel (text management, recruitment, page editing)
+- Contact form
+- Google Analytics integration
+
+---
+
+## Project History
+
+| Date | Event |
 |---|---|
-| 05/08/2006 | Projekt Hakara został rozpoczęty |
-| 04/09/2006 | Pierwsze złożone prace rekrutacyjne |
-| 15/09/2007 | Pierwsze teksty w dziale "teksty" |
-| 16/05/2007 | 10 tekstów w 3 rozdziałach |
-| 09/11/2008 | 20 tekstów w 5 rozdziałach |
-| 10/11/2012 | Nowy, odświeżony wygląd strony |
+| 05/08/2006 | Hakara project launched |
+| 04/09/2006 | First recruitment submissions received |
+| 15/09/2007 | First texts published |
+| 16/05/2007 | 10 texts across 3 chapters |
+| 09/11/2008 | 20 texts across 5 chapters |
+| 10/11/2012 | New refreshed site design |
 
 ---
 
-## Autor
+## Author
 
 **Przemek Świerczyński**
 [github.com/pswierczynski](https://github.com/pswierczynski)
 
 ---
 
-## Licencja
+## License
 
-Projekt nie posiada jawnie zdefiniowanej licencji. Wszelkie prawa zastrzeżone przez autora.
+No license is explicitly defined in this repository. All rights reserved by the author.
