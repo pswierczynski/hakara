@@ -1,14 +1,29 @@
-# Hakara
+# Hakara — Interactive Storytelling Platform
 
-**Interactive storytelling platform** — a collaborative writing project where invited authors contribute to a branching story composed of chapters and texts reviewed by the community.
+> A collaborative fiction platform where a curated group of amateur writers build a shared speculative story together.
 
 ---
 
-## About
+## Overview
 
-Hakara is a web platform for a group of amateur writers to collaboratively build an interactive story. The project uses a recruitment system — new authors submit a sample piece which is reviewed by administrators. Once accepted, an author can add texts within existing chapters or propose new ones.
+**Hakara** is a PHP/MySQL web application built around collaborative storytelling. Writers apply through a recruitment process, and once accepted, contribute chapters and texts to a single shared narrative universe. The project is named after the in-universe deity "Hakara" — a divine entity born in human form whose return sets the tone for the story's world.
 
-The platform displays live stats: number of chapters, texts, comments, and total reads.
+The platform spans a post-WWIII speculative setting in which humanity has achieved unprecedented technological progress, begun to decode consciousness, and now stands at the threshold of a new evolutionary stage.
+
+---
+
+## Features
+
+- **Story browser** — browse chapters (`katalog`) and individual texts with view counters
+- **Recruitment system** — applicants submit sample works; administrators approve or reject them
+- **User profiles** — participant pages and a public participant listing
+- **Notebook** (`notatnik`) — personal notes for logged-in writers
+- **Comment system** — readers and writers can comment on texts
+- **Admin panel** — content management via dedicated `strona-*` pages
+- **Lore page** (`fabula.php`) — in-universe background/worldbuilding
+- **Rules page** (`zasady.php`) — community guidelines and participation terms
+- **Contact page** (`kontakt.php`)
+- **Live statistics** on the homepage — chapter count, text count, comment count, total reads, participant slots
 
 ---
 
@@ -16,136 +31,124 @@ The platform displays live stats: number of chapters, texts, comments, and total
 
 | Layer | Technology |
 |---|---|
-| Backend | PHP (vanilla, no framework) |
-| Database | MySQL / MariaDB |
-| Frontend | HTML, CSS (custom `style.css`) |
-| Scroll UI | jQuery + SlimScroll |
-| Analytics | Google Analytics (UA) |
+| Backend | PHP (procedural) |
+| Database | MySQL via `mysqli` |
+| Frontend | HTML, CSS (`style.css`) |
+| JS utilities | jQuery, slimScroll |
+| Analytics | Google Analytics (UA legacy) |
 
 ---
 
-## File Structure
+## Project Structure
 
 ```
 hakara/
-├── index.php               # Home page — project description, stats, announcements
-├── zasady.php              # Participation rules
-├── rejestracja.php         # User registration form
-├── rekrutacja.php          # List of recruitment submissions
-├── rekrutacja-dodaj.php    # Add recruitment submission form
-├── rekrutacja-wpis.php     # Single recruitment submission view
-├── teksty.php              # Full text listing
-├── wpis.php                # Text view
-├── wpis2.php               # Text view (variant)
-├── wpis3.php               # Text view (variant)
-├── dodaj.php               # Add text form
-├── dodaj2.php              # Add text form (variant)
-├── fabula.php              # Story structure / chapter map
-├── profil.php              # User profile
-├── notatnik.php            # Author's notepad
-├── uczestnicy.php          # Participants list
-├── inne.php                # Miscellaneous content
-├── kontakt.php             # Contact form
-├── strona-edycja.php       # Page editor (admin panel)
-├── strona-rekrutacja.php   # Recruitment panel (admin)
-├── strona-teksty.php       # Text management panel (admin)
-├── style.css               # Stylesheet
+├── index.php               # Homepage — stats, announcements
+├── fabula.php              # In-universe lore / worldbuilding
+├── zasady.php              # Rules and participation guidelines
+├── teksty.php              # Text listing / story browser
+├── wpis.php                # Single text entry view
+├── wpis2.php               # Text entry variant (e.g. with comments)
+├── wpis3.php               # Text entry variant
+├── dodaj.php               # Add new text (step 1)
+├── dodaj2.php              # Add new text (step 2 / confirm)
+├── rekrutacja.php          # Recruitment — submission listing
+├── rekrutacja-dodaj.php    # Recruitment — submit application
+├── rekrutacja-wpis.php     # Recruitment — single application view
+├── rejestracja.php         # User registration
+├── profil.php              # User profile page
+├── uczestnicy.php          # Participant listing
+├── notatnik.php            # Personal notebook for writers
+├── kontakt.php             # Contact page
+├── inne.php                # Miscellaneous / other content
+├── strona-edycja.php       # Admin: edit page content
+├── strona-rekrutacja.php   # Admin: manage recruitment
+├── strona-teksty.php       # Admin: manage texts
+├── style.css               # Global stylesheet
 └── modules/
-    ├── head.php            # HTML header (include)
-    └── foot.php            # HTML footer (include)
+    ├── head.php            # Shared HTML head + DB connection
+    └── foot.php            # Shared HTML footer
 ```
 
 ---
 
 ## Database Schema
 
-Based on queries found in the source code, the project requires at least the following tables:
+The application uses the following tables (inferred from source):
 
 | Table | Description |
 |---|---|
-| `katalog` | Story chapters |
-| `tekst` | Author texts (columns include: `wyswietlen`, and others) |
-| `kom` | Comments on texts |
+| `katalog` | Story chapters / categories |
+| `tekst` | Individual story texts; includes `wyswietlen` (view counter) |
+| `kom` | Comments |
+| `users` / participants | Writer accounts (implied by profile/registration pages) |
 
-> **Note:** No SQL schema file is included in the repository. Tables must be created manually before running the app.
-
----
-
-## Requirements
-
-- PHP >= 5.6 (uses `mysqli_*` functions)
-- MySQL / MariaDB
-- HTTP server: Apache or Nginx
-- jQuery (loaded via `head.php`)
-- jQuery SlimScroll
+> **Note:** No migration files or schema dump is included in the repository. You will need to reconstruct the schema from the PHP queries or create it manually.
 
 ---
 
 ## Installation
 
-1. **Clone the repository:**
+### Requirements
 
-```bash
-git clone https://github.com/pswierczynski/hakara.git
-cd hakara
-```
+- PHP 7.x or 8.x
+- MySQL 5.7+ / MariaDB
+- Apache or Nginx with `mod_rewrite` (optional)
+- Web server with PHP support (e.g. XAMPP, LAMP, WAMP, or a shared host)
 
-2. **Create the database:**
+### Steps
 
-```sql
-CREATE DATABASE hakara CHARACTER SET utf8 COLLATE utf8_polish_ci;
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/pswierczynski/hakara.git
+   ```
 
-3. **Configure the database connection:**
+2. Copy the project to your web server's document root (e.g. `htdocs/` or `/var/www/html/`).
 
-Locate the connection config (likely inside `modules/head.php`) and fill in your credentials:
+3. Create a MySQL database:
+   ```sql
+   CREATE DATABASE hakara CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
 
-```php
-$conn = mysqli_connect('localhost', 'username', 'password', 'hakara');
-```
+4. Configure the database connection in `modules/head.php`. Look for the `mysqli_connect()` call and update the credentials:
+   ```php
+   $conn = mysqli_connect("localhost", "your_user", "your_password", "hakara");
+   ```
 
-4. **Create the required tables** according to the schema described above.
+5. Create the required tables. Since no SQL dump is provided, refer to the queries in `index.php`, `teksty.php`, and `rekrutacja.php` to reconstruct the schema.
 
-5. **Deploy files to your server** (e.g. `public_html` or `htdocs`).
-
-6. **Open in browser:** `http://localhost/hakara/`
-
----
-
-## Features
-
-- Home page with dynamic statistics (chapters, texts, comments, reads)
-- Author recruitment system with admin review
-- Adding and browsing literary texts
-- Story structure / chapter map view
-- Author profiles
-- Author notepad
-- Admin panel (text management, recruitment, page editing)
-- Contact form
-- Google Analytics integration
+6. Open the application in a browser:
+   ```
+   http://localhost/hakara/
+   ```
 
 ---
 
-## Project History
+## Context & History
 
-| Date | Event |
-|---|---|
-| 05/08/2006 | Hakara project launched |
-| 04/09/2006 | First recruitment submissions received |
-| 15/09/2007 | First texts published |
-| 16/05/2007 | 10 texts across 3 chapters |
-| 09/11/2008 | 20 texts across 5 chapters |
-| 10/11/2012 | New refreshed site design |
+The project was active roughly between **2006 and 2012**, as evidenced by the hardcoded announcements on the homepage. It was a collaborative creative writing project with approximately 6 participants (3 active writers, 2 organizers) and a capacity for up to 20 writers.
+
+The story is set in a future world recovering from WWIII (which began in 2021 in-universe), exploring themes of transhumanism, artificial consciousness, and the boundary between human and divine.
 
 ---
 
-## Author
+## Known Limitations
 
-**Przemek Świerczyński**
-[github.com/pswierczynski](https://github.com/pswierczynski)
+- No SQL schema file is included — database setup requires manual reconstruction
+- No `.htaccess` or routing configuration is included
+- Uses legacy Google Analytics (Universal Analytics, `UA-` prefix) — no longer functional
+- Authentication and session handling implementation is not visible in the current files (likely in `modules/head.php`)
+- Inline styles are used throughout — no component-based CSS architecture
+- No CSRF protection or input sanitization visible in the public files
 
 ---
 
 ## License
 
-No license is explicitly defined in this repository. All rights reserved by the author.
+No license is specified in this repository. All rights to the story content and code are presumed to belong to the original author(s).
+
+---
+
+## Author
+
+**Przemek Świerczyński** — [github.com/pswierczynski](https://github.com/pswierczynski)
