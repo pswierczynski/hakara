@@ -20,9 +20,9 @@ header('Content-Type: text/html; charset=UTF-8');
 
 <?php
 $host = 'localhost';      // lub inny adres serwera bazy danych
-$dbname = 'przemeks_hakara';   // nazwa twojej bazy danych
-$username = 'przemeks_hakara'; // nazwa użytkownika bazy danych
-$password = 'Przemek123!';      // hasło użytkownika
+$dbname = 'xxx';   // nazwa twojej bazy danych
+$username = 'xxx'; // nazwa użytkownika bazy danych
+$password = 'xxx';      // hasło użytkownika
 
 // Tworzenie połączenia
 $conn = new mysqli($host, $username, $password, $dbname);
