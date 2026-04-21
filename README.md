@@ -4,6 +4,12 @@
 
 ---
 
+**Link**
+
+[pswierczynski.pl/projects/hakara/pswierczynski](https://pswierczynski.pl/projects/hakara)
+
+---
+
 ## Overview
 
 **Hakara** is a PHP/MySQL web application built around collaborative storytelling. Writers apply through a recruitment process, and once accepted, contribute chapters and texts to a single shared narrative universe. The project is named after the in-universe deity "Hakara" — a divine entity born in human form whose return sets the tone for the story's world.
